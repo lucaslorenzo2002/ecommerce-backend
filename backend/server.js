@@ -7,9 +7,10 @@ const methodOverride = require('method-override');
 const logger = require('./utils/logger');
 const parseArg = require('minimist');
 const os = require('os');
-const envConfig = require('./config/envConfig')
+const envConfig = require('./config/envConfig');
 
 const app = express();
+module.exports = app
 
 const options = {
     alias:{
@@ -95,3 +96,4 @@ if(args.mode === 'FORK' && cluster.isPrimary){
     
     server.on('error', err => logger.info(err))
     }
+
