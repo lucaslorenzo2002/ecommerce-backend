@@ -1,6 +1,6 @@
 const Product  = require('../../schemas/producto');
 const logger = require('../../utils/logger');
-const transformarADto = require('../../dtos/productosDTO')
+const transformarADto = require('../../dtos/productosDTO');
 
 class ProductosDAO{
     constructor(connection){
@@ -28,17 +28,23 @@ class ProductosDAO{
 
     async getProductoId(id){
         try{
-            const findId = await Product.findById({_id: id}).lean();
-            return findId
+            return await Product.findById({_id: id}).lean()
         }catch(err){
             logger.info(err)
         }       
     }           
 
+    async getProductoByName(nombre){
+        try {
+            return await Product.find({nombre}).lean()
+        } catch (error) {
+            
+        }
+    }
+
     async actualizarProducto(id, nuevoValor1, nuevoValor2){
         try{
-            const upd = await Product.findByIdAndUpdate(id, {nombre: nuevoValor1, precio: nuevoValor2}).lean()
-            return upd
+            return await Product.findByIdAndUpdate(id, {nombre: nuevoValor1, precio: nuevoValor2}).lean()
         }catch(err){
             logger.info(err)
         }
@@ -46,8 +52,7 @@ class ProductosDAO{
 
     async eliminarProducto(id){
         try{
-            const del = await Product.deleteOne({_id: id});
-            return del
+            return await Product.deleteOne({_id: id});
         }catch(err){
             logger.info(err)
         }

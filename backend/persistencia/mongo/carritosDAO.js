@@ -23,10 +23,16 @@ class CarritosDAO{
             logger.info(error)
         }
     }
-
+ /* .populate({
+            path: 'posts',
+            populate: {
+                path: '_poster',
+                model: 'User',
+            },
+        }) */
     async agregarProductoAlCarrito(id, prodId){
         try {
-            const addProd = await Cart.updateOne({usuario: {_id: id}}, {$push: {productos: prodId}});
+            const addProd = await Cart.updateOne({usuario: {_id: id}}, {$push: {items: {productos: prodId}}});
             return addProd
         } catch (error) {
             logger.info(error);
@@ -35,7 +41,7 @@ class CarritosDAO{
 
     async eliminarProductoDelCarrito(id, prodId){
         try {
-            const delProd = await Cart.updateOne({usuario: { _id: id }}, {$pull: {productos: prodId}} );
+            const delProd = await Cart.updateOne({usuario: { _id: id }}, {$pull: {items: {productos: prodId}}});
             return delProd
         } catch (error) {
             logger.info(error);

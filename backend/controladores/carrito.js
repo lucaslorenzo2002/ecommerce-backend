@@ -20,8 +20,10 @@ class ControladorCarritos{
     
     getCart = asyncHandler(async (req, res) => {
         try {
-            const cartUsuario = await this.apiCarritos.getCart(req.user._id)
+            const cartUsuario = await this.apiCarritos.getCart(req.user._id);
+            console.log(cartUsuario);
             const productosCarrito = cartUsuario[0].productos;
+            console.log(productosCarrito);
             const preciosProductosCarrito = [];
             productosCarrito.map((productoCarrito) => {
             preciosProductosCarrito.push(productoCarrito.precio)

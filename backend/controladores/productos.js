@@ -29,7 +29,7 @@ class ControladorProductos{
         try{
             const productos = await this.apiProductos.getProductos()
             if(req.user.rol === 'admin'){
-             return res.render('inicioAdmin', {productos})
+                return res.render('inicioAdmin', {productos})
             }
     
             res.render('inicio', {productos})
@@ -37,11 +37,35 @@ class ControladorProductos{
             logger.info(error)
         }
     });
+
+    postFiltrarProducto = asyncHandler(async (req, res) => {
+        try{
+            const nombre = req.body.buscarProducto;
+            res.redirect(`/api/productos/${nombre}`)
+        }catch(error){
+            logger.info(error)
+        }
+    });
+
+    getFiltrarProducto = asyncHandler(async (req, res) => {
+        try{
+            const nombre = req.params.nombre;
+            const producto = await this.apiProductos.getProductoByName(nombre);
+            const productoObj = producto[0];
+
+            if(req.user.rol === 'admin'){
+                return res.render('getProductoAdmin', {productoObj})
+            }
+            res.render('getProducto', {productoObj})
+        }catch(error){
+            logger.info(error)
+        }
+    });
     
     getActualizarProductos = asyncHandler(async (req, res) => {
         try {
-            const id = req.params.id
-            const producto = await this.apiProductos.getActualizarProductos(id)
+            const id = req.params.id;
+            const producto = await this.apiProductos.getActualizarProductos(id);
             res.render('actualizarProducto', {producto})
         } catch (error) {
             logger.info(error)

@@ -7,11 +7,12 @@
 <div>
     <table>
         <tr> 
-            <th>nombre</th><th>precio</th>
+            <th>nombre</th><th>precio</th><th>cantidad</th>
     {{#each productosCarrito}}
         <tr>
             <td>{{this.nombre}}</td>
             <td>{{this.precio}}</td>
+            <td>1</td>
             <form action="/api/eliminardelcarrito/{{this._id}}" method="post">
             <td><button type="submit">eliminar</button></td>
             </form>

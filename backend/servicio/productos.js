@@ -14,6 +14,14 @@ class ApiProductos{
         return await this.productosFactory.getProductos()
     }
     
+    async getProducto(id){
+        return await this.productosFactory.getProductoId(id)
+    }
+
+    async getProductoByName(nombre){
+        return await this.productosFactory.getProductoByName(nombre)
+    }
+    
     async getActualizarProductos(id){
         return await this.productosFactory.getProductoId(id)
     }

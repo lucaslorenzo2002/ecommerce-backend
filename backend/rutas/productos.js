@@ -5,7 +5,7 @@ const ControladorProductos = require('../controladores/productos');
 
 class RutasProductos{
     constructor(){
-         this.controlador = new ControladorProductos() 
+        this.controlador = new ControladorProductos() 
     }
 
     start(){
@@ -13,6 +13,8 @@ class RutasProductos{
         productRouter.post('/crearproducto', estaAutenticado, esAdmin, this.controlador.postCrearProducto)
 
         productRouter.get('/productos', estaAutenticado, this.controlador.getProductos)
+        productRouter.get('/productos/:nombre', estaAutenticado, this.controlador.getFiltrarProducto)
+        productRouter.post('/filtrarproducto', estaAutenticado, this.controlador.postFiltrarProducto)
 
         productRouter.get('/actualizarproducto/:id', estaAutenticado, esAdmin, this.controlador.getActualizarProductos)
         productRouter.put('/actualizarproducto/:id', estaAutenticado, esAdmin, this.controlador.postActualizarProductos)

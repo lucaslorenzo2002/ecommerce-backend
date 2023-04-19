@@ -3,6 +3,13 @@
 <a href="/api/datos">Mis datos</a>
 <button onclick="location.href='/api/auth/logout'">logout</button>
 
+<div class="buscarProducto">
+    <form action="/api/filtrarproducto" method="post">
+        <input type="text" name="buscarProducto" id="" placeholder="buscar producto">
+        <input type="submit" value="buscar">
+    </form>
+</div>
+
 <div>
     <table>
         <tr> 
