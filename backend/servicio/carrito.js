@@ -6,8 +6,8 @@ class ApiCarrito{
         this.carritosDAO = new CarritosDAO(connection)
     }
     
-    async agregarProductoAlCarrito(idCarrito, idProducto){
-        return await this.carritosDAO.agregarProductoAlCarrito(idCarrito, idProducto)
+    async agregarProductoAlCarrito(idCarrito, idProducto, precioProducto){
+        return await this.carritosDAO.agregarProductoAlCarrito(idCarrito, idProducto, precioProducto)
     }
     
     async getCart(idCarrito){
@@ -18,12 +18,12 @@ class ApiCarrito{
         return await this.carritosDAO.eliminarProductoDelCarrito(idCarrito, idProducto)
     }
     
-    async vaciarCarrito(id, newValue1, newValue2){
-        //return await this.carritosDAO.actualizarProducto(id, newValue1, newValue2)
+    async vaciarCarrito(id){
+        return await this.carritosDAO.vaciarCarrito(id)
     }
     
     async confirmarCompra(id){
-       return await this.carritosDAO.getCarrito(id)
+        return await this.carritosDAO.getCarrito(id)
     }
 
 }

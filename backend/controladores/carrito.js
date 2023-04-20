@@ -3,15 +3,18 @@ const logger = require('../utils/logger');
 const sendEmail = require('../utils/enviarEmail');
 const sendWpp = require('../utils/enviarWpp');
 const ApiCarrito = require('../servicio/carrito');
+const ApiProductos = require('../servicio/productos');
 
 class ControladorCarritos{
     constructor(){
         this.apiCarritos = new ApiCarrito()
+        this.apiProductos = new ApiProductos()
     }
 
     agregarProductoAlCarrito = asyncHandler(async (req, res) => {
         try {
-            await this.apiCarritos.agregarProductoAlCarrito(req.user._id, req.params.id)
+            const producto = await this.apiProductos.getProducto(req.params.id);
+            await this.apiCarritos.agregarProductoAlCarrito(req.user._id, req.params.id, producto.precio)
             res.redirect('/api/productos') 
         } catch (error) {
             logger.info(error)
@@ -21,12 +24,11 @@ class ControladorCarritos{
     getCart = asyncHandler(async (req, res) => {
         try {
             const cartUsuario = await this.apiCarritos.getCart(req.user._id);
-            console.log(cartUsuario);
-            const productosCarrito = cartUsuario[0].productos;
+            const productosCarrito = cartUsuario[0].items;
             console.log(productosCarrito);
             const preciosProductosCarrito = [];
             productosCarrito.map((productoCarrito) => {
-            preciosProductosCarrito.push(productoCarrito.precio)
+            preciosProductosCarrito.push(productoCarrito.producto.precio * productoCarrito.cantidad)
             })
             const initialVal = 0;
             const subtotal = preciosProductosCarrito.reduce((acc, currVal) => acc + currVal, initialVal);
@@ -36,7 +38,7 @@ class ControladorCarritos{
             }else{
                 false
             }
-            res.render('carrito', {productosCarrito, productosEnCarrito, subtotal})
+            res.render('carrito', {productosCarrito, productosEnCarrito, subtotal}) 
             } catch (error) {
             logger.info(error)
         }
@@ -53,7 +55,8 @@ class ControladorCarritos{
     
     vaciarCarrito = asyncHandler(async (req, res) => {
         try {
-            
+            await this.apiCarritos.vaciarCarrito(req.user._id)
+            res.redirect('/api/carrito')
         } catch (error) {
             logger.info(error)
         }
