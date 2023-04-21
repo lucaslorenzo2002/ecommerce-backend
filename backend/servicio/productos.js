@@ -21,6 +21,10 @@ class ApiProductos{
     async getProductoByName(nombre){
         return await this.productosFactory.getProductoByName(nombre)
     }
+
+    async getProductosByFiltro(precioMinimo, precioMaximo, categoria){
+        return await this.productosFactory.getProductosByFiltro(precioMinimo, precioMaximo, categoria)
+    }
     
     async getActualizarProductos(id){
         return await this.productosFactory.getProductoId(id)

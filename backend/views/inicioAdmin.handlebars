@@ -4,11 +4,27 @@
 <button onclick="location.href='/api/auth/logout'">logout</button>
 
 <div class="buscarProducto">
-    <form action="/api/filtrarproducto" method="post">
+    <form action="/api/filtrarproducto" method="get">
         <input type="text" name="buscarProducto" id="" placeholder="buscar producto">
         <input type="submit" value="buscar">
     </form>
 </div>
+
+<div class="filtros">
+    <h3>filtros</h3>
+    <form action="/api/productosfiltrados" method="post">
+        <h5>precio</h5>
+            <input type="number" name="precioMinimo" id="" placeholder="precio minimo" value="0">
+            <input type="number" name="precioMaximo" id="" placeholder="precio maximo" value="1000000">
+        <h5>categoria</h5>
+            <input type="radio" value="tecnologia" name="categoria" id="tecnologia">tecnologia
+            <input type="radio" value="comida" name="categoria" id="comida">comida
+            <input type="radio" value="indumentaria" name="categoria" id="indumentaria">indumentaria <br>
+            <input type="radio" value="" name="categoria" id="">sin categoria <br>
+
+            <input type="submit" value="filtrar">
+    </form>
+</div><br>
 
 <div>
     <table>

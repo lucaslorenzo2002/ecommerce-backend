@@ -13,8 +13,11 @@ class RutasProductos{
         productRouter.post('/crearproducto', estaAutenticado, esAdmin, this.controlador.postCrearProducto)
 
         productRouter.get('/productos', estaAutenticado, this.controlador.getProductos)
-        productRouter.get('/productos/:nombre', estaAutenticado, this.controlador.getFiltrarProducto)
-        productRouter.post('/filtrarproducto', estaAutenticado, this.controlador.postFiltrarProducto)
+        productRouter.get('/productos/:nombre', estaAutenticado, this.controlador.getBuscarProducto)
+        productRouter.post('/filtrarproducto', estaAutenticado, this.controlador.postBuscarProducto)
+
+        productRouter.post('/productosfiltrados', estaAutenticado, this.controlador.getProductosByFiltro)
+        //productRouter.post('/productosfiltrados', estaAutenticado, this.controlador.postProductosByFiltro)
 
         productRouter.get('/actualizarproducto/:id', estaAutenticado, esAdmin, this.controlador.getActualizarProductos)
         productRouter.put('/actualizarproducto/:id', estaAutenticado, esAdmin, this.controlador.postActualizarProductos)

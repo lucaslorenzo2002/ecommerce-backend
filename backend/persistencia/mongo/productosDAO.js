@@ -42,6 +42,18 @@ class ProductosDAO{
         }
     }
 
+    async getProductosByFiltro(precioMinimo, precioMaximo, categoria = null){
+        try {
+            let filtro = {precio: {$gte: precioMinimo, $lte : precioMaximo}};
+            if(categoria){
+                filtro.categoria = categoria;
+            }
+            return await Product.find(filtro).lean()
+        } catch (error) {
+            
+        }
+    }
+
     async actualizarProducto(id, nuevoValor1, nuevoValor2){
         try{
             return await Product.findByIdAndUpdate(id, {nombre: nuevoValor1, precio: nuevoValor2}).lean()

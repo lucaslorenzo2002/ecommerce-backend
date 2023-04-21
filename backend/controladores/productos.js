@@ -38,7 +38,7 @@ class ControladorProductos{
         }
     });
 
-    postFiltrarProducto = asyncHandler(async (req, res) => {
+    postBuscarProducto = asyncHandler(async (req, res) => {
         try{
             const nombre = req.body.buscarProducto;
             res.redirect(`/api/productos/${nombre}`)
@@ -47,7 +47,7 @@ class ControladorProductos{
         }
     });
 
-    getFiltrarProducto = asyncHandler(async (req, res) => {
+    getBuscarProducto = asyncHandler(async (req, res) => {
         try{
             const nombre = req.params.nombre;
             const producto = await this.apiProductos.getProductoByName(nombre);
@@ -61,6 +61,16 @@ class ControladorProductos{
             logger.info(error)
         }
     });
+
+    getProductosByFiltro = asyncHandler(async (req, res) => {
+        const{precioMinimo, precioMaximo, categoria} = req.body;
+        const productosFiltrados = await this.apiProductos.getProductosByFiltro(precioMinimo, precioMaximo, categoria);
+        const cantidadDeProductosEncontrados = productosFiltrados.length;
+        if(req.user.rol === 'admin'){
+            return res.render('getProductosFiltradosAdmin', {productosFiltrados, cantidadDeProductosEncontrados})
+        } 
+        res.render('getProductosFiltrados', {productosFiltrados, cantidadDeProductosEncontrados})
+    })
     
     getActualizarProductos = asyncHandler(async (req, res) => {
         try {
