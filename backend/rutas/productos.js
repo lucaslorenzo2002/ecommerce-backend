@@ -13,6 +13,7 @@ class RutasProductos{
         productRouter.post('/crearproducto', estaAutenticado, esAdmin, this.controlador.postCrearProducto)
 
         productRouter.get('/productos', estaAutenticado, this.controlador.getProductos)
+        productRouter.get('/producto/:id', estaAutenticado, this.controlador.getProducto)
         productRouter.get('/productos/:nombre', estaAutenticado, this.controlador.getBuscarProducto)
         productRouter.post('/filtrarproducto', estaAutenticado, this.controlador.postBuscarProducto)
 

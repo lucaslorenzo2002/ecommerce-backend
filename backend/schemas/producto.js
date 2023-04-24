@@ -15,13 +15,17 @@ const productSchema = new mongoose.Schema({
     descripcion: {
         type: String,
         minLength: 5,
-        maxLength: 50,
+        maxLength: 100,
         required: [true, 'porfavor agregue la descripcion del producto']
     },
     categoria: {
         type: String,
         required: [true, 'porfavor especifique el tipo de producto']
-    }
+    },
+    opiniones:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'opiniones'
+    }]
 }, {
     timestamps: true
 })

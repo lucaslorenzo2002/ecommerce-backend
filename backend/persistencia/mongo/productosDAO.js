@@ -1,6 +1,5 @@
 const Product  = require('../../schemas/producto');
 const logger = require('../../utils/logger');
-const transformarADto = require('../../dtos/productosDTO');
 
 class ProductosDAO{
     constructor(connection){
@@ -9,9 +8,7 @@ class ProductosDAO{
 
     async crearProducto(prod){
         try{
-            const data = await Product.create(prod);
-            logger.info('producto creado: ' + this.type)
-            logger.info(data)            
+            return await Product.create(prod)    
         }catch(err){
             logger.info(err)
         }
@@ -19,8 +16,7 @@ class ProductosDAO{
 
     async getProductos(){
         try{
-            const find = await Product.find().lean()
-            return find
+            return await Product.find().lean()
         }catch(err){
             logger.info(err)
         }
@@ -28,7 +24,7 @@ class ProductosDAO{
 
     async getProductoId(id){
         try{
-            return await Product.findById({_id: id}).lean()
+            return await Product.findById({_id: id}).populate('opiniones').lean()
         }catch(err){
             logger.info(err)
         }       

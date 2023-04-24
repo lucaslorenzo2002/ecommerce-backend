@@ -1,10 +1,12 @@
 const asyncHandler = require('express-async-handler');
 const ApiProductos = require('../servicio/productos');
+const ApiOpiniones = require('../servicio/opiniones');
 const logger = require('../utils/logger');
 
 class ControladorProductos{
     constructor(){
         this.apiProductos = new ApiProductos()
+        this.apiOpiniones = new ApiOpiniones()
     }
 
     getCrearProducto = asyncHandler(async (req, res) => {
@@ -33,6 +35,41 @@ class ControladorProductos{
             }
     
             res.render('inicio', {productos})
+        }catch(error){
+            logger.info(error)
+        }
+    });
+
+    getProducto = asyncHandler(async (req, res) => {
+        try{
+            const id = req.params.id;
+            const producto = await this.apiProductos.getProducto(id);
+            const opiniones = await this.apiOpiniones.getOpiniones(id);
+            const opinionesYUsername =  opiniones.map(opinion => {
+                return {
+                    usuario: opinion.usuario.username,
+                    opinion: opinion.opinion,
+                    calificacion: opinion.calificacion,
+                    fecha: opinion.createdAt
+                };
+            });
+            let totalCalificaciones = 0;   
+            const calificacionOpiniones =  opiniones.map(opinion => {
+                return {
+                    calificacion: opinion.calificacion
+                };
+            });   
+
+            for (let i = 0; i < calificacionOpiniones.length; i++) {
+                totalCalificaciones += calificacionOpiniones[i].calificacion;
+            }
+            
+            const promedioDeCalificacion = (totalCalificaciones / calificacionOpiniones.length).toFixed(2);
+
+            if(req.user.rol === 'admin'){
+                return res.render('productoDetallesAdmin', {producto, opinionesYUsername, promedioDeCalificacion})
+            }  
+            res.render('productoDetalles', {producto, opinionesYUsername, promedioDeCalificacion})
         }catch(error){
             logger.info(error)
         }

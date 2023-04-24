@@ -8,9 +8,11 @@ const logger = require('./utils/logger');
 const parseArg = require('minimist');
 const os = require('os');
 const envConfig = require('./config/envConfig');
+const{ Server: HttpServer } = require('http');
+const { Server: IOServer } = require('socket.io');
 
 const app = express();
-module.exports = app
+const httpServer = new HttpServer(app);
 
 const options = {
     alias:{
@@ -76,21 +78,31 @@ if(args.mode === 'FORK' && cluster.isPrimary){
     const  RouterCarritos  = require('./rutas/carrito');
     const  RouterAutenticacion  = require('./rutas/autenticacion');
     const  RouterUsuarios  = require('./rutas/usuario');
+    const  RouterOpiniones  = require('./rutas/opiniones');
 
     const routerProductos = new RouterProductos();
     const routerAutenticacion = new RouterAutenticacion();
     const routerCarritos = new RouterCarritos();
     const routerUsuarios = new RouterUsuarios();
+    const routerOpiniones = new RouterOpiniones();
     
     app.use('/api', routerProductos.start())
+    app.use('/api', routerOpiniones.start())
     app.use('/api', routerCarritos.start())
     app.use('/api', routerUsuarios.start())
     app.use('/api/auth', routerAutenticacion.start())
     
+    //SOCKETS
+    const IO = new IOServer(httpServer);
+
+    IO.on('connection', socket => {
+
+    })
+
     //CONEXION AL PUERTO
     const PORT = envConfig.PORT;
     
-    const server = app.listen(PORT, () => {
+    const server = httpServer.listen(PORT, () => {
         logger.info(`escuchando en: ${PORT}, ${envConfig.NODE_ENV} - ${envConfig.TIPO_PERSISTENCIA}`)
     })
     
