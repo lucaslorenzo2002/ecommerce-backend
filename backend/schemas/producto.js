@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'porfavor especifique el tipo de producto']
     },
+    favorito: {
+        type: Boolean,
+        default: false
+    },
     opiniones:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'opiniones'

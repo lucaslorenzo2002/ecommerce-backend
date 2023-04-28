@@ -25,7 +25,6 @@ class ControladorCarritos{
         try {
             const cartUsuario = await this.apiCarritos.getCart(req.user._id);
             const productosCarrito = cartUsuario[0].items;
-            console.log(productosCarrito);
             const preciosProductosCarrito = [];
             productosCarrito.map((productoCarrito) => {
             preciosProductosCarrito.push(productoCarrito.producto.precio * productoCarrito.cantidad)
@@ -72,7 +71,6 @@ class ControladorCarritos{
             pedido: ${carritoUsuario[0].productos}
             `
     
-
             //ENVIAR MAIL
             let from = process.env.EMAIL_USER;
             let to = process.env.ADMIN_EMAIL;
@@ -85,6 +83,7 @@ class ControladorCarritos{
             `
                 await sendWpp(mensajeWpp)
                 await sendEmail(from, to, subject, mensajeEmail)
+                await this.apiCarritos.vaciarCarrito(req.user._id)
                 res.json({msg: 'compra confirmada'})
     }catch (error) {
         throw new Error ('mail no enviado' + error)

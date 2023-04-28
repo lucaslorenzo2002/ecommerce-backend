@@ -9,6 +9,14 @@ class ApiUsuarios{
     async getDatos(usuario){
         return await this.autenticacionDAO.getUsuario(usuario)
     }
+
+    async getFavoritos(id){
+        return await this.autenticacionDAO.favoritos(id)
+    }
+
+    async agregarProductoAFavoritos(id, prodId){
+        return await this.autenticacionDAO.agregarProductoAFavoritos(id, prodId)
+    }
 }
 
 module.exports = ApiUsuarios

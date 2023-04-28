@@ -16,6 +16,25 @@ class ControladorUsuarios{
             logger.info(error)
         }
     })
+
+    getFavoritos = asyncHandler(async (req, res) => {
+        try {
+            const favoritos = await this.apiUsuarios.getFavoritos(req.user._id);
+            console.log(favoritos);
+            res.render('favoritos')
+        } catch (error) {
+            logger.info(err)
+        }
+    })
+
+    agregarProductoAFavoritos = asyncHandler(async (req, res) => {
+        try {
+            await this.apiUsuarios.agregarProductoAFavoritos(req.user._id, req.params.id)
+            res.redirect('/api/productos')
+        } catch (error) {
+            logger.info(err)
+        }
+    })
 }
 
 module.exports = ControladorUsuarios

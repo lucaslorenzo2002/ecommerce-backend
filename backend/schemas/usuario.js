@@ -44,7 +44,11 @@ const userSchema = new mongoose.Schema({
     carrito:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cart'
-    } 
+    },
+    favoritos:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Favoritos'
+    }]
 })
 
 

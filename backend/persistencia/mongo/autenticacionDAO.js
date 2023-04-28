@@ -8,9 +8,7 @@ class AuthDAO{
 
     async crearUsuario(newUser){
         try{
-            const user = await User.create(newUser);
-            logger.info('usuario creado');
-            return user
+            return await User.create(newUser)
         }catch(err){
             logger.info(err)
         }
@@ -18,8 +16,7 @@ class AuthDAO{
 
     async getUsuario(username){
         try{
-            const data = await User.findOne({username}).lean();
-            return data
+            return await User.findOne({username}).lean()
         }catch(err){
             logger.info(err);
         }
@@ -27,8 +24,7 @@ class AuthDAO{
 
     async getUsuarioMail(email){
         try{
-            const data = await User.findOne({email});
-            return data
+            return await User.findOne({email})
         }catch(err){
             logger.info(err);
         }
@@ -36,13 +32,11 @@ class AuthDAO{
 
     async getUsuarioId(id){
         try{
-            const data = await User.findById(id);
-            return data
+            return await User.findById(id)
         }catch(err){
             logger.info(err);
         }
     }
-
 }
 
 module.exports = AuthDAO

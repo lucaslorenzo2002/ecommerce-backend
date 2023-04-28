@@ -16,9 +16,9 @@ const sendEmail = async(from, to, subject, message) => {
     })
 
     const options = {
-        from: from,
-        to: to,
-        subject: subject,
+        from,
+        to,
+        subject,
         hmtl: message
     }
 

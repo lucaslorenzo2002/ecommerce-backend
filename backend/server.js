@@ -79,18 +79,21 @@ if(args.mode === 'FORK' && cluster.isPrimary){
     const  RouterAutenticacion  = require('./rutas/autenticacion');
     const  RouterUsuarios  = require('./rutas/usuario');
     const  RouterOpiniones  = require('./rutas/opiniones');
+    const  RouterFavoritos  = require('./rutas/favoritos');
 
     const routerProductos = new RouterProductos();
     const routerAutenticacion = new RouterAutenticacion();
     const routerCarritos = new RouterCarritos();
     const routerUsuarios = new RouterUsuarios();
     const routerOpiniones = new RouterOpiniones();
+    const routerFavoritos = new RouterFavoritos();
     
     app.use('/api', routerProductos.start())
     app.use('/api', routerOpiniones.start())
     app.use('/api', routerCarritos.start())
     app.use('/api', routerUsuarios.start())
     app.use('/api/auth', routerAutenticacion.start())
+    app.use('/api', routerFavoritos.start())
     
     //SOCKETS
     const IO = new IOServer(httpServer);

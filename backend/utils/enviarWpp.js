@@ -1,4 +1,7 @@
-/* const client = require('twilio')(process.env.TWILIO_ID, process.env.TWILIO_AUTH_TOKEN);
+require('dotenv').config({path: './desarrollo.env'});
+const accountSid = process.env.TWILIO_ID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
 const logger = require('./logger');
 
 
@@ -13,4 +16,4 @@ const mensajeTwilio = async(body) => {
     .catch(err => logger.info(err))
 }
 
-module.exports = mensajeTwilio */
+module.exports = mensajeTwilio 

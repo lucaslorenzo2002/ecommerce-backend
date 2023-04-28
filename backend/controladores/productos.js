@@ -1,12 +1,14 @@
 const asyncHandler = require('express-async-handler');
 const ApiProductos = require('../servicio/productos');
 const ApiOpiniones = require('../servicio/opiniones');
+const ApiFavoritos = require('../servicio/favoritos');
 const logger = require('../utils/logger');
 
 class ControladorProductos{
     constructor(){
         this.apiProductos = new ApiProductos()
         this.apiOpiniones = new ApiOpiniones()
+        this.apiFavoritos = new ApiFavoritos()
     }
 
     getCrearProducto = asyncHandler(async (req, res) => {
@@ -29,11 +31,22 @@ class ControladorProductos{
     
     getProductos = asyncHandler(async (req, res) => {
         try{
-            const productos = await this.apiProductos.getProductos()
+            const productos = await this.apiProductos.getProductos();
+
             if(req.user.rol === 'admin'){
                 return res.render('inicioAdmin', {productos})
             }
-    
+
+            const favoritos = await this.apiFavoritos.getFavoritos(req.user._id);
+            const productosFavoritos = favoritos[0].favoritos
+            const idsProductosFavoritos = productosFavoritos.map((productoFavorito) => productoFavorito._id.toString());
+
+            productos.forEach(producto => {
+                if(idsProductosFavoritos.includes(producto._id.toString())){
+                    producto.favorito = true
+                }
+            });  
+
             res.render('inicio', {productos})
         }catch(error){
             logger.info(error)

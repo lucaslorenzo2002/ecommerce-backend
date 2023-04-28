@@ -9,10 +9,14 @@ const connection = require('../config/mongooseConfig')
 //REQUIRE A CLASES DE MONGOOSE
 const AuthDAO = require('../persistencia/mongo/autenticacionDAO');
 const CartDAO = require('../persistencia/mongo/carritosDAO');
+const FavoritosDAO = require('../persistencia/mongo/favoritosDAO');
+
+const logger = require('../utils/logger');
 
 //CONTENEDOR DE MONGOOSE
 const authDAO = new AuthDAO(connection);
 const cartDAO = new CartDAO(connection);
+const favoritosDAO = new FavoritosDAO(connection);
 
 const hashPassword = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
@@ -51,7 +55,7 @@ passport.use('register', new localStrategy({
         rol
     }
 
-    const nuevoUsuarioMongoose  = await authDAO.crearUsuario(nuevoUsuario)
+    const nuevoUsuarioMongoose  = await authDAO.crearUsuario(nuevoUsuario);
     
     let mensaje = `
     <div>
@@ -78,6 +82,7 @@ passport.use('register', new localStrategy({
     const usuarioId = nuevoUsuarioMongoose._id;
 
     await cartDAO.nuevoCarrito(usuarioId)
+    await favoritosDAO.crearFavoritos(usuarioId)
 
     done(null, nuevoUsuario)}
 ))
