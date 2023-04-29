@@ -6,7 +6,6 @@
   "scripts": {
     "test-productos": "mocha tests/productos.test.js",
     "start": "node server.js",
-    "install": "npm install --omit=dev",
     "watch": "nodemon server.js",
     "dev": "set NODE_ENV=desarrollo&& node server.js",
     "prod": "set NODE_ENV=produccion&& node server.js"
