@@ -7,7 +7,8 @@
     "test-productos": "mocha tests/productos.test.js",
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "dev": "set NODE_ENV=desarrollo&& node server.js"
+    "dev": "set NODE_ENV=desarrollo&& node server.js",
+    "prod": "set NODE_ENV=produccion&& node server.js"
   },
   "keywords": [],
   "author": "",
