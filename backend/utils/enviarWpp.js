@@ -1,4 +1,4 @@
-require('dotenv').config({path: './desarrollo.env'});
+require('dotenv').config({path: './produccion.env'});
 const accountSid = process.env.TWILIO_ID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
